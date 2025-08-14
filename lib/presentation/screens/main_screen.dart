@@ -13,14 +13,14 @@ class MainScreen extends StatefulWidget {
 }
 
 class _MainScreenState extends State<MainScreen> {
-  int _selectedIndex = 2; // Home est maintenant au milieu
+  int _selectedIndex = 2;
 
-  static const List<Widget> _widgetOptions = <Widget>[
-    PlaceholderScreen(title: 'Amis'),
-    ClanScreen(),
-    HomeScreen(),
-    PlaceholderScreen(title: 'Shop'),
-    ProfileScreen(),
+  static final List<Widget> _widgetOptions = <Widget>[
+    const PlaceholderScreen(title: 'Amis'),
+    const ClanScreen(),
+    const HomeScreen(),
+    const ShopScreen(),
+    const ProfileScreen(),
   ];
 
   void _onItemTapped(int index) {

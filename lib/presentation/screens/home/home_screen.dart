@@ -1,53 +1,65 @@
-import 'package:flutter/material.dart';
-import 'package:stepworld_app/presentation/common_widgets/placeholder_screen.dart';
-import 'package:stepworld_app/presentation/screens/clan/clan_screen.dart';
-import 'package:stepworld_app/presentation/screens/home/home_screen.dart';
-import 'package:stepworld_app/presentation/screens/profile/profile_screen.dart';
-import 'package:stepworld_app/presentation/screens/shop/shop_screen.dart';
+import 'dart:math';
 
-class MainScreen extends StatefulWidget {
-  const MainScreen({super.key});
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:stepworld_app/logic/cubits/steps_cubit.dart';
+import 'package:stepworld_app/presentation/screens/home/widgets/avatar_view.dart';
+import 'package:stepworld_app/presentation/screens/home/widgets/chest_progress_bar.dart';
+import 'package:stepworld_app/presentation/screens/home/widgets/daily_challenge_card.dart';
+import 'package:stepworld_app/presentation/screens/home/widgets/home_header.dart';
+import 'package:stepworld_app/presentation/screens/home/widgets/leaderboard_cards.dart';
+import 'package:stepworld_app/presentation/screens/home/widgets/main_action_buttons.dart';
+
+class HomeScreen extends StatefulWidget {
+  const HomeScreen({super.key});
 
   @override
-  State<MainScreen> createState() => _MainScreenState();
+  State<HomeScreen> createState() => _HomeScreenState();
 }
 
-class _MainScreenState extends State<MainScreen> {
-  int _selectedIndex = 2;
-
-  // CORRECTION : On a retiré "const" de cette ligne
-  static final List<Widget> _widgetOptions = <Widget>[
-    const PlaceholderScreen(title: 'Amis'),
-    const ClanScreen(),
-    const HomeScreen(),
-    const ShopScreen(),
-    const ProfileScreen(),
-  ];
-
-  void _onItemTapped(int index) {
-    setState(() {
-      _selectedIndex = index;
-    });
+class _HomeScreenState extends State<HomeScreen> {
+  @override
+  void initState() {
+    super.initState();
+    context.read<StepsCubit>().loadSteps();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: IndexedStack(
-        index: _selectedIndex,
-        children: _widgetOptions,
-      ),
-      bottomNavigationBar: BottomNavigationBar(
-        items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(icon: Icon(Icons.people), label: 'Amis'),
-          BottomNavigationBarItem(icon: Icon(Icons.shield), label: 'Clan'),
-          BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
-          BottomNavigationBarItem(
-              icon: Icon(Icons.shopping_bag), label: 'Shop'),
-          BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Profil'),
-        ],
-        currentIndex: _selectedIndex,
-        onTap: _onItemTapped,
+      body: SafeArea(
+        child: BlocBuilder<StepsCubit, StepsState>(
+          builder: (context, state) {
+            if (state.status == StepsStatus.loading) {
+              return const Center(child: CircularProgressIndicator());
+            }
+            return ListView(
+              padding: const EdgeInsets.all(16.0),
+              children: [
+                const HomeHeader(),
+                const SizedBox(height: 20),
+                const MainActionButtons(),
+                const SizedBox(height: 20),
+                ChestProgressBar(currentSteps: state.todaySteps),
+                const SizedBox(height: 8),
+                const DailyChallengeCard(),
+                const SizedBox(height: 20),
+                const LeaderboardCards(),
+                const SizedBox(height: 20),
+                const AvatarView(),
+                const SizedBox(height: 20),
+                ElevatedButton.icon(
+                  onPressed: () {},
+                  icon: const Icon(Icons.add),
+                  label: const Text('Rejoindre des amis'),
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Theme.of(context).primaryColorDark,
+                  ),
+                ),
+              ],
+            );
+          },
+        ),
       ),
     );
   }

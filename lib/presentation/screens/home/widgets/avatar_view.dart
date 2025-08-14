@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:stepworld_app/presentation/screens/walking/walking_screen.dart';
 import 'package:stepworld_app/presentation/theme/app_theme.dart';
 
 class AvatarView extends StatelessWidget {
@@ -22,15 +23,25 @@ class AvatarView extends StatelessWidget {
               Positioned(
                 top: 8,
                 right: 8,
-                child: TextButton(
+                child: TextButton.icon(
+                  // MODIFIÉ : Ajout d'une icône
                   style: TextButton.styleFrom(
                     backgroundColor: Colors.black.withOpacity(0.2),
                     foregroundColor: Colors.white,
-                    padding: const EdgeInsets.symmetric(horizontal: 8),
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
                     minimumSize: Size.zero,
                   ),
-                  onPressed: () {},
-                  child: const Text('Plein écran'),
+                  // MODIFIÉ : Ajout de la navigation vers le nouvel écran
+                  onPressed: () {
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (context) => const WalkingScreen(),
+                      ),
+                    );
+                  },
+                  icon: const Icon(Icons.fullscreen, size: 16),
+                  label: const Text('Plein écran'),
                 ),
               ),
             ],
