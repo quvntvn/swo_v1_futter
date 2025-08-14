@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:stepworld_app/logic/cubits/steps_cubit.dart';
+// CORRECTION : Imports manquants ajoutés ci-dessous
 import 'package:stepworld_app/presentation/screens/home/widgets/chest_progress_bar.dart';
-import 'package.stepworld_app/presentation/screens/home/widgets/daily_challenge_card.dart';
+import 'package:stepworld_app/presentation/screens/home/widgets/daily_challenge_card.dart';
 import 'package:stepworld_app/presentation/screens/home/widgets/home_header.dart';
 import 'package:stepworld_app/presentation/theme/app_theme.dart';
 
@@ -25,7 +26,7 @@ class WalkingScreen extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  const HomeHeader(),
+                  const Expanded(child: HomeHeader()),
                   // Bouton pour fermer le plein écran
                   IconButton(
                     icon: const Icon(Icons.close_fullscreen),

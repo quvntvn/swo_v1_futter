@@ -4,6 +4,7 @@ import 'package:stepworld_app/presentation/screens/clan/clan_screen.dart';
 import 'package:stepworld_app/presentation/screens/home/home_screen.dart';
 import 'package:stepworld_app/presentation/screens/profile/profile_screen.dart';
 import 'package:stepworld_app/presentation/screens/shop/shop_screen.dart';
+import 'package:stepworld_app/presentation/screens/friends/friends_screen.dart';
 
 class MainScreen extends StatefulWidget {
   const MainScreen({super.key});
@@ -16,7 +17,7 @@ class _MainScreenState extends State<MainScreen> {
   int _selectedIndex = 2;
 
   static final List<Widget> _widgetOptions = <Widget>[
-    const PlaceholderScreen(title: 'Amis'),
+    const FriendsScreen(),
     const ClanScreen(),
     const HomeScreen(),
     const ShopScreen(),

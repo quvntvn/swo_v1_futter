@@ -1,3 +1,24 @@
+buildscript {
+    // Définit des variables globales pour le build
+    ext.kotlin_version = '1.9.23' // Version standard pour les projets Flutter récents
+    
+    // Définit les endroits où Gradle va chercher les dépendances
+    repositories {
+        google()
+        mavenCentral()
+    }
+
+    // Définit les dépendances du processus de build lui-même
+    dependencies {
+        // CORRECTION : Mise à jour de la version du plugin Gradle Android
+        classpath 'com.android.tools.build:gradle:8.4.0'
+        
+        // Dépendance pour le plugin Kotlin
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+    }
+}
+
+// Configuration appliquée à tous les modules du projet (app, plugins...)
 allprojects {
     repositories {
         google()
@@ -5,6 +26,7 @@ allprojects {
     }
 }
 
+// Définit le dossier de sortie pour le build
 rootProject.buildDir = "../build"
 subprojects {
     project.buildDir = "${rootProject.buildDir}/${project.name}"
@@ -13,6 +35,7 @@ subprojects {
     project.evaluationDependsOn(":app")
 }
 
+// Crée une tâche "clean" pour supprimer le dossier de build
 tasks.register("clean", Delete) {
     delete rootProject.buildDir
 }
