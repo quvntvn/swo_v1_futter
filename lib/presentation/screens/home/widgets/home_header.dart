@@ -2,10 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:stepworld_app/presentation/theme/app_theme.dart';
 
 class HomeHeader extends StatelessWidget {
-  const HomeHeader({super.key});
+  final bool isNightMode;
+  const HomeHeader({super.key, this.isNightMode = false});
 
   @override
   Widget build(BuildContext context) {
+    final textColor = isNightMode ? Colors.white : AppTheme.textColor;
+    final clanColor = isNightMode ? Colors.white70 : AppTheme.primaryColor;
+
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
@@ -13,22 +17,26 @@ class HomeHeader extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text('LvL 12 Nom Joueur',
-                style: Theme.of(context).textTheme.titleLarge),
+                style: Theme.of(context)
+                    .textTheme
+                    .titleLarge
+                    ?.copyWith(color: textColor)),
             Text('Nom Clan',
                 style: Theme.of(context)
                     .textTheme
                     .bodySmall
-                    ?.copyWith(color: AppTheme.primaryColor)),
+                    ?.copyWith(color: clanColor)),
           ],
         ),
-        IconButton(
-          onPressed: () {},
-          icon: const Icon(Icons.settings_outlined),
-          style: IconButton.styleFrom(
-              backgroundColor: Colors.white,
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(12))),
-        ),
+        if (!isNightMode) // On n'affiche le bouton que si on n'est pas en mode nuit
+          IconButton(
+            onPressed: () {},
+            icon: const Icon(Icons.settings_outlined),
+            style: IconButton.styleFrom(
+                backgroundColor: Colors.white,
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12))),
+          ),
       ],
     );
   }
